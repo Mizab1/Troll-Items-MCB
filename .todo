@@ -1,12 +1,12 @@
-- Summon TNT, 
-- Play a creeper sound, 
-- Make them drop the item they are holding
-- Spawn a baby zombie near them
-- Instant TNT chest
-- Invisible blocks (barriers)
-- Instant Holes (20 deep blocks) 3x3
-- Fake diamond ores blocks
-- Chest full with useless items
+- Summon TNT, @done
+- Play a creeper sound, @done
+- Make them drop the item they are holding @done
+- Spawn a baby zombie near them @done
+- Instant TNT chest @done
+- Invisible blocks (barriers) @done
+- Instant Holes (20 deep blocks) 3x3 @done
+- Fake diamond ores blocks @done
+- Chest full with useless items @done
 - Trampoline fake blocks, it will replace a selected block with a hidden slime which will give levitation 1 100 to the player and will make him jump
 - locked door, wooden door that you can’t open
 - hole of 3x3x3 blocks in grass or stone which will be full with creepers if the player falls there
@@ -22,3 +22,10 @@
 - spell to make the player will destroy every block at his foots
 - convert a village to nightmare version with spiders, you should change the blocks by other dark version
 - random tp to all players, swap them
+
+- Tag for exclusion is `troller`
+- !Remeber to change the cycle number
+- make the troller invisible
+
+
+- Retexture Coarse dirt
