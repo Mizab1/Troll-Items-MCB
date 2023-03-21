@@ -1,0 +1,17 @@
+[
+  [
+    "lastUpdate",
+    "Tue Mar 21 2023 11:53:54 GMT+0530 (India Standard Time)"
+  ],
+  [
+    "INTERNAL/VIRTUAL_FILE_SYSTEM",
+    {
+      "src\\troll_items.mc": {
+        "data\\minecraft\\tags\\functions\\load.json": 3710732076,
+        "data\\minecraft\\tags\\functions\\tick.json": 2578856159,
+        "data\\troll_items\\functions\\load.mcfunction": 1545227858,
+        "data\\troll_items\\functions\\tick.mcfunction": 3200732006
+      }
+    }
+  ]
+]
