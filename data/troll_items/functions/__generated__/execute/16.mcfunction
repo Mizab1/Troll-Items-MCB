@@ -1,5 +1,4 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-scoreboard players add @s item_select 1
-playsound minecraft:block.stone_button.click_on master @s ~ ~ ~ 1 1
-function troll_items:cycle_items/cycle_item_check
+execute at @a[tag=!troller, limit=1, sort=nearest] run function troll_items:__generated__/execute/17
+tellraw @s {"text":"You summoned spiders at the closest players location", "color":"gold"}
