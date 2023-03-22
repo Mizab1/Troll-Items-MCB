@@ -227,7 +227,7 @@ function drop_item_from_mainhand{
     setblock 100 -64 100 minecraft:yellow_shulker_box
     data modify storage mizab:drop_item Item set from entity @s SelectedItem
     data modify block 100 -64 100 Items append from storage mizab:drop_item Item
-    item replace entity @s weapon.mainhand with minecraft:air 
+    item replace entity @s weapon.mainhand with minecraft:airs
     loot spawn ^ ^1 ^2 mine 100 -64 100 minecraft:air{drop_contents: 1b}
 }
 
