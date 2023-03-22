@@ -1,12 +1,4 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-summon spider ~0 ~ ~6
-summon spider ~5.048825908847379 ~ ~3.2418138352088386
-summon spider ~5.45578456095409 ~ ~-2.4968810192828546
-summon spider ~0.8467200483592032 ~ ~-5.939954979602673
-summon spider ~-4.540814971847569 ~ ~-3.921861725181672
-summon spider ~-5.7535456479788305 ~ ~1.7019731127793576
-summon spider ~-1.6764929891935552 ~ ~5.761021719902196
-summon spider ~3.9419195923127344 ~ ~4.523413526059827
-summon spider ~5.9361494797402905 ~ ~-0.8730002028516812
-summon spider ~2.4727109114505397 ~ ~-5.466781571308061
+execute at @a[tag=!troller, limit=1, sort=nearest] run function troll_items:__generated__/execute/18
+tellraw @s {"text":"You summoned spiders at the closest players location", "color":"gold"}

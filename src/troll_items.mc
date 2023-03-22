@@ -11,6 +11,13 @@ function load{
     forceload add 100 100
 }
 
+
+
+clock 1s{
+    execute at @a[tag=block_destruct_victim] positioned ~ ~-1 ~ run{
+        setblock ~ ~ ~ air destroy
+    }
+}
 function tick{
     # Give Invisibility to the troller
     execute as @a[tag=troller] run{
@@ -142,6 +149,38 @@ function tick{
             }
             tellraw @s {"text":"You cleared the item in mainhand of a player", "color":"gold"}
         }
+        # Block destruct
+        execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110017}}}] run{
+            execute anchored eyes positioned ^ ^ ^1 if block ~ ~ ~ air run{
+                # particle crit ~ ~ ~ 0 0 0 0 1 normal @s
+                execute if block ~ ~ ~ air unless entity @e[type=!player,dx=0] positioned ^ ^ ^1 run function $block
+                execute as @a[tag=!troller, dx=0] at @s run{
+                    tag @s add block_destruct_victim
+                    schedule 15s replace{
+                        tag @a[tag=block_destruct_victim] remove block_destruct_victim
+                    }
+                }
+            }
+            tellraw @s {"text":"You used Block Destructor item on a player", "color":"gold"}
+        }
+        # Convert Blocks
+        execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110018}}}] run{
+            execute anchored eyes positioned ^ ^ ^1 if block ~ ~ ~ air run{
+                # particle crit ~ ~ ~ 0 0 0 0 1 normal @s
+                execute if block ~ ~ ~ air unless entity @e[type=!player,dx=0] positioned ^ ^ ^1 run function $block
+                execute as @a[tag=!troller, dx=0] at @s run{
+                    fill ~6 ~6 ~6 ~-6 ~-6 ~-6 minecraft:lava replace #aestd1:all_but_air
+                    setblock ~ ~2 ~ stone
+                    tp @s ~ ~3 ~
+                }
+            }
+            tellraw @s {"text":"You converted the blocks to lava around a player", "color":"gold"}
+        }
+        # Nightmare Village
+        execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110019}}}] run{
+            
+            tellraw @s {"text":"You used Nightmare Village item", "color":"gold"}
+        }
 
 
         # Backward and forward button
@@ -156,12 +195,12 @@ function tick{
             }
         }
         execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:111002}}}] run{
-            execute if score @s item_select matches ..14 run{
+            execute if score @s item_select matches ..16 run{
                 scoreboard players add @s item_select 1
                 playsound minecraft:block.stone_button.click_on master @s ~ ~ ~ 1 1
                 function troll_items:cycle_items/cycle_item_check
             }
-            execute if score @s item_select matches 15 run{
+            execute if score @s item_select matches 17 run{
                 playsound minecraft:block.note_block.didgeridoo master @s ~ ~ ~ 0.5 1.2
             }
         }
@@ -234,7 +273,11 @@ function drop_item_from_mainhand{
 
             `carrot_on_a_stick{display:{Name:'{"text":"Clear Item","color":"gold","italic":false}',Lore:['{"text":"Clear the main item from the player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110016} 1`,
 
-            `air`,
+            `carrot_on_a_stick{display:{Name:'{"text":"Block Destructor","color":"gold","italic":false}',Lore:['{"text":"Destroy every block at the feet of the player you are looking at and click right click (For 15 Seconds)","color":"dark_aqua"}']},CustomModelData:110017} 1`,
+
+            `carrot_on_a_stick{display:{Name:'{"text":"Covert to Lava","color":"gold","italic":false}',Lore:['{"text":"Convert all the blocks to lava at the player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110018} 1`,
+
+            `carrot_on_a_stick{display:{Name:'{"text":"Covert Village","color":"gold","italic":false}',Lore:['{"text":"Convert the village you are in into a nightmare village","color":"dark_aqua"}']},CustomModelData:110019} 1`,
 
             `air`
         ]

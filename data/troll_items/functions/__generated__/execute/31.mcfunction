@@ -1,4 +1,4 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-execute if block ~ ~ ~ air unless entity @e[type=!player,dx=0] positioned ^ ^ ^1 run function troll_items:__generated__/execute/31
-execute as @a[tag=!troller, dx=0] at @s run item replace entity @s weapon.mainhand with air
+execute anchored eyes positioned ^ ^ ^1 if block ~ ~ ~ air run function troll_items:__generated__/execute/32
+tellraw @s {"text":"You cleared the item in mainhand of a player", "color":"gold"}

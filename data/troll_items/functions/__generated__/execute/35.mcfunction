@@ -1,5 +1,4 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-scoreboard players remove @s item_select 1
-playsound minecraft:block.stone_button.click_off master @s ~ ~ ~ 1 1
-function troll_items:cycle_items/cycle_item_check
+execute anchored eyes positioned ^ ^ ^1 if block ~ ~ ~ air run function troll_items:__generated__/execute/36
+tellraw @s {"text":"You used Block Destructor item on a player", "color":"gold"}
