@@ -18,14 +18,15 @@
 - change the speed of the player that you are looking to speed 15 100 @done
 - creeper rain around a player @done
 - steal items from the hand of the player you are looking at @done
-- convert all the blocks around of a player change to lava, up him, so if he is in a cave he can run and scape
-- spell to make the player will destroy every block at his foots
+- convert all the blocks around of a player change to lava, up him, so if he is in a cave he can run and scape @done
+- spell to make the player will destroy every block at his foots @done
 - convert a village to nightmare version with spiders, you should change the blocks by other dark version
 - random tp to all players, swap them
 
 - Tag for exclusion is `troller`
 - !Remeber to change the cycle number
 - make the troller invisible
+- !Remeber to include tags file
 
 
 - Retexture Coarse dirt
