@@ -5,4 +5,5 @@ scoreboard objectives add item_select dummy
 gamerule keepInventory true
 gamerule doDaylightCycle false
 gamerule doWeatherCycle false
+gamerule commandModificationBlockLimit 999999999
 forceload add 100 100

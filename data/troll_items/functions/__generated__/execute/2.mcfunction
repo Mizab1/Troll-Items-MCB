@@ -18,7 +18,8 @@ execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1
 execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110016}}}] run function troll_items:__generated__/execute/31
 execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110017}}}] run function troll_items:__generated__/execute/35
 execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110018}}}] run function troll_items:__generated__/execute/39
-execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110019}}}] run tellraw @s {"text":"You used Nightmare Village item", "color":"gold"}
-execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:111001}}}] run function troll_items:__generated__/execute/44
-execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:111002}}}] run function troll_items:__generated__/execute/47
+execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110019}}}] run function troll_items:__generated__/execute/43
+execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110020}}}] run function troll_items:__generated__/execute/44
+execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:111001}}}] run function troll_items:__generated__/execute/45
+execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:111002}}}] run function troll_items:__generated__/execute/48
 scoreboard players reset @s rc_detect

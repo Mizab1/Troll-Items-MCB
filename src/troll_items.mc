@@ -5,7 +5,7 @@ function load{
     gamerule keepInventory true
     gamerule doDaylightCycle false
     gamerule doWeatherCycle false
-
+    gamerule commandModificationBlockLimit 999999999
 
     # shulker box technique
     forceload add 100 100
@@ -178,19 +178,81 @@ function tick{
         }
         # Nightmare Village
         execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110019}}}] run{
-            
+            LOOP(30,i){
+                summon spider ~ ~6 ~
+            }
+            spreadplayers ~ ~ 4 20 true @e[type=minecraft:spider, distance=..30]
+            <%%
+                let blockAndAlternative = [
+                    `cobblestone`,
+                    `blackstone`,
+
+                    `mossy_cobblestone`,
+                    `blackstone`,
+
+                    `cobblestone_stairs`,
+                    `blackstone_stairs`,
+
+                    `cobblestone_wall`,
+                    `blackstone_wall`,
+
+                    `oak_log`,
+                    `dark_oak_log`,
+
+                    `stripped_oak_wood`,
+                    `stripped_dark_oak_wood`,
+
+                    `stripped_oak_log`,
+                    `stripped_dark_oak_log`,
+
+                    `oak_planks`,
+                    `dark_oak_planks`,
+
+                    `oak_fence`,
+                    `dark_oak_fence`,
+
+                    `oak_stairs[facing=east]`,
+                    `dark_oak_stairs[facing=east]`,
+
+                    `oak_stairs[facing=west]`,
+                    `dark_oak_stairs[facing=west]`,
+
+                    `oak_stairs[facing=north]`,
+                    `dark_oak_stairs[facing=north]`,
+
+                    `oak_stairs[facing=south]`,
+                    `dark_oak_stairs[facing=south]`,
+
+                    `white_terracotta`,
+                    `black_terracotta`,
+
+                    `grass_block`,
+                    `netherrack`,
+
+                    `stone`,
+                    `cobbled_deepslate`
+                ]
+                for (let i = 0; i < blockAndAlternative.length; i+=2) {
+                    emit(`fill ~80 ~30 ~80 ~-80 ~-30 ~-80 ${blockAndAlternative[i+1]} replace ${blockAndAlternative[i]}`)  
+                }
+            %%>
             tellraw @s {"text":"You used Nightmare Village item", "color":"gold"}
+        }
+        # Random teleport
+        execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110020}}}] run{
+            spreadplayers ~ ~ 40 80 false @a[tag=!troller]
+            tellraw @s {"text":"You used Random Teleport item", "color":"gold"}
         }
 
 
         # Backward and forward button
         execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:111001}}}] run{
-            execute if score @s item_select matches 0.. run{
+            execute if score @s item_select matches 1.. run{
                 scoreboard players remove @s item_select 1
                 playsound minecraft:block.stone_button.click_off master @s ~ ~ ~ 1 1
                 function troll_items:cycle_items/cycle_item_check
             }
-            execute if score @s item_select matches -1 run{
+            execute if score @s item_select matches 0 run{
                 playsound minecraft:block.note_block.didgeridoo master @s ~ ~ ~ 0.5 1.2
             }
         }
@@ -227,64 +289,68 @@ function drop_item_from_mainhand{
     setblock 100 -64 100 minecraft:yellow_shulker_box
     data modify storage mizab:drop_item Item set from entity @s SelectedItem
     data modify block 100 -64 100 Items append from storage mizab:drop_item Item
-    item replace entity @s weapon.mainhand with minecraft:airs
+    item replace entity @s weapon.mainhand with minecraft:air
     loot spawn ^ ^1 ^2 mine 100 -64 100 minecraft:air{drop_contents: 1b}
 }
+function make_me_troller{
+    tag @s add troller
+    function troll_items:cycle_items/give_items
+}
 
-    <%%
-        storage.get("ITEMS_VAR")
-        items = [
-            `carrot_on_a_stick{display:{Name:'{"text":"Summon TNT","color":"gold","italic":false}',Lore:['{"text":"Summons a TNT at your position","color":"dark_aqua"}']},CustomModelData:110001} 1`,
+<%%
+    items = [
+        `carrot_on_a_stick{display:{Name:'{"text":"Summon TNT","color":"gold","italic":false}',Lore:['{"text":"Summons a TNT at your position","color":"dark_aqua"}']},CustomModelData:110001} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Creeper Sound","color":"gold","italic":false}',Lore:['{"text":"Create creeper sound at your position","color":"dark_aqua"}']},CustomModelData:110002} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Creeper Sound","color":"gold","italic":false}',Lore:['{"text":"Create creeper sound at your position","color":"dark_aqua"}']},CustomModelData:110002} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Summon Baby Zombie","color":"gold","italic":false}',Lore:['{"text":"Summon baby zombie at the closest players excluding troller","color":"dark_aqua"}']},CustomModelData:110003} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Summon Baby Zombie","color":"gold","italic":false}',Lore:['{"text":"Summon baby zombie at the closest players excluding troller","color":"dark_aqua"}']},CustomModelData:110003} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Fetch Items","color":"gold","italic":false}',Lore:['{"text":"Drop the current item in closest players hand","color":"dark_aqua"}']},CustomModelData:110004} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Fetch Items","color":"gold","italic":false}',Lore:['{"text":"Drop the current item in closest players hand","color":"dark_aqua"}']},CustomModelData:110004} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"TNT Trapped Chest","color":"gold","italic":false}',Lore:['{"text":"Places a TNT Trapped chect at your position","color":"dark_aqua"}']},CustomModelData:110005} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"TNT Trapped Chest","color":"gold","italic":false}',Lore:['{"text":"Places a TNT Trapped chect at your position","color":"dark_aqua"}']},CustomModelData:110005} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Invisible Wall","color":"gold","italic":false}',Lore:['{"text":"Places invisible wall (10x10x10) at your position","color":"dark_aqua"}']},CustomModelData:110006} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Invisible Wall","color":"gold","italic":false}',Lore:['{"text":"Places invisible wall (10x10x10) at your position","color":"dark_aqua"}']},CustomModelData:110006} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Instant Hole","color":"gold","italic":false}',Lore:['{"text":"Dig 3x3 hole at your position","color":"dark_aqua"}']},CustomModelData:110007} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Instant Hole","color":"gold","italic":false}',Lore:['{"text":"Dig 3x3 hole at your position","color":"dark_aqua"}']},CustomModelData:110007} 1`,
 
-            `coarse_dirt{display:{Name:'{"text":"Block of Diamond","italic":false}'}} 64`,
+        `coarse_dirt{display:{Name:'{"text":"Block of Diamond","italic":false}'}} 64`,
 
-            `chest{display:{Name:'{"text":"Useless Chest", "italic":false}'},BlockEntityTag:{LootTable:"minecraft:chests/useless_chest"}} 64`,
-            `carrot_on_a_stick{display:{Name:'{"text":"Hidden Trampoline","color":"gold","italic":false}',Lore:['{"text":"Places a invisible trampoline at your position","color":"dark_aqua"}']},CustomModelData:110008} 1`,
+        `chest{display:{Name:'{"text":"Useless Chest", "italic":false}'},BlockEntityTag:{LootTable:"minecraft:chests/useless_chest"}} 64`,
+        
+        `carrot_on_a_stick{display:{Name:'{"text":"Hidden Trampoline","color":"gold","italic":false}',Lore:['{"text":"Places a invisible trampoline at your position","color":"dark_aqua"}']},CustomModelData:110008} 1`,
 
-            `iron_door{display:{Name:'{"text":"Locked Door","italic":false}'}} 64`,
+        `iron_door{display:{Name:'{"text":"Locked Door","italic":false}'}} 64`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Creeper Hole","color":"gold","italic":false}',Lore:['{"text":"Places a creeper hole at your position","color":"dark_aqua"}']},CustomModelData:110009} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Creeper Hole","color":"gold","italic":false}',Lore:['{"text":"Places a creeper hole at your position","color":"dark_aqua"}']},CustomModelData:110009} 1`,
 
-            `fishing_rod{display:{Name:'{"text":"Troll Rod","color":"gold","italic":false}',Lore:['{"text":"Grab a player with it and push them","color":"dark_aqua"}']}} 1`,
+        `fishing_rod{display:{Name:'{"text":"Troll Rod","color":"gold","italic":false}',Lore:['{"text":"Grab a player with it and push them","color":"dark_aqua"}']}} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Fire Trap","color":"gold","italic":false}',Lore:['{"text":"Places array of fire at your position","color":"dark_aqua"}']},CustomModelData:110010} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Fire Trap","color":"gold","italic":false}',Lore:['{"text":"Places array of fire at your position","color":"dark_aqua"}']},CustomModelData:110010} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Spider Trap","color":"gold","italic":false}',Lore:['{"text":"Summons spider at the closest player location","color":"dark_aqua"}']},CustomModelData:110011} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Spider Trap","color":"gold","italic":false}',Lore:['{"text":"Summons spider at the closest player location","color":"dark_aqua"}']},CustomModelData:110011} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Teleport To Closest Player","color":"gold","italic":false}',Lore:['{"text":"Teleports you to the closest player","color":"dark_aqua"}']},CustomModelData:110012} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Teleport To Closest Player","color":"gold","italic":false}',Lore:['{"text":"Teleports you to the closest player","color":"dark_aqua"}']},CustomModelData:110012} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Firework Trap","color":"gold","italic":false}',Lore:['{"text":"Summons fireworks at the closest player location","color":"dark_aqua"}']},CustomModelData:110013} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Firework Trap","color":"gold","italic":false}',Lore:['{"text":"Summons fireworks at the closest player location","color":"dark_aqua"}']},CustomModelData:110013} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Change Speed","color":"gold","italic":false}',Lore:['{"text":"Change the speed of the player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110014} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Change Speed","color":"gold","italic":false}',Lore:['{"text":"Change the speed of the player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110014} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Creeper Rain","color":"gold","italic":false}',Lore:['{"text":"Raining creeper around player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110015} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Creeper Rain","color":"gold","italic":false}',Lore:['{"text":"Raining creeper around player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110015} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Clear Item","color":"gold","italic":false}',Lore:['{"text":"Clear the main item from the player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110016} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Clear Item","color":"gold","italic":false}',Lore:['{"text":"Clear the main item from the player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110016} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Block Destructor","color":"gold","italic":false}',Lore:['{"text":"Destroy every block at the feet of the player you are looking at and click right click (For 15 Seconds)","color":"dark_aqua"}']},CustomModelData:110017} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Block Destructor","color":"gold","italic":false}',Lore:['{"text":"Destroy every block at the feet of the player you are looking at and click right click (For 15 Seconds)","color":"dark_aqua"}']},CustomModelData:110017} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Covert to Lava","color":"gold","italic":false}',Lore:['{"text":"Convert all the blocks to lava at the player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110018} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Covert to Lava","color":"gold","italic":false}',Lore:['{"text":"Convert all the blocks to lava at the player you are looking at and click right click","color":"dark_aqua"}']},CustomModelData:110018} 1`,
 
-            `carrot_on_a_stick{display:{Name:'{"text":"Covert Village","color":"gold","italic":false}',Lore:['{"text":"Convert the village you are in into a nightmare village","color":"dark_aqua"}']},CustomModelData:110019} 1`,
+        `carrot_on_a_stick{display:{Name:'{"text":"Covert Village","color":"gold","italic":false}',Lore:['{"text":"Convert the village you are in into a nightmare village","color":"dark_aqua"}']},CustomModelData:110019} 1`,
 
-            `air`
-        ]
-        storage.set("ITEMS_LENGTH", items.length)
-        storage.set("ITEMS", items)
-        console.log(storage.get("ITEMS_LENGTH") - 8) + 1
-    %%>
+        `carrot_on_a_stick{display:{Name:'{"text":"Random Teleport","color":"gold","italic":false}',Lore:['{"text":"Randomly teleport the player(s)","color":"dark_aqua"}']},CustomModelData:110020} 1`
+    ]
+    storage.set("ITEMS_LENGTH", items.length)
+    storage.set("ITEMS", items)
+    console.log(storage.get("ITEMS_LENGTH") - 8) + 1
+%%>
 dir cycle_items{
     function cycle_item_check{
         LOOP((storage.get("ITEMS_LENGTH") - 7) + 1,i){

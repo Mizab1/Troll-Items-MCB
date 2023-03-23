@@ -20,13 +20,16 @@
 - steal items from the hand of the player you are looking at @done
 - convert all the blocks around of a player change to lava, up him, so if he is in a cave he can run and scape @done
 - spell to make the player will destroy every block at his foots @done
-- convert a village to nightmare version with spiders, you should change the blocks by other dark version
-- random tp to all players, swap them
+- convert a village to nightmare version with spiders, you should change the blocks by other dark version @done
+- random tp to all players, swap them @done
 
 - Tag for exclusion is `troller`
+- /function troll_items:make_me_troller: To make the current player a troller
+- Convert village only work if you're in a plains village
 - !Remeber to change the cycle number
 - make the troller invisible
 - !Remeber to include tags file
+- !Fix the backward -1
 
 
 - Retexture Coarse dirt
