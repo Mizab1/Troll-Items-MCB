@@ -1,4 +1,5 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-execute as @a[tag=!troller, limit=1, sort=nearest] at @s run function troll_items:drop_item_from_mainhand
-tellraw @s {"text":"You made the person to drop their item", "color":"gold"}
+execute at @a[tag=!troller, limit=1, sort=nearest] run summon zombie ~6 ~ ~ {IsBaby:1b}
+execute at @a[tag=!troller, limit=1, sort=nearest] run summon zombie ~-6 ~ ~ {IsBaby:1b}
+tellraw @s {"text":"You summon a baby zombie at the closest player's location", "color":"gold"}

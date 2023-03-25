@@ -2,6 +2,7 @@ import ./macros/internal_macros.mcm
 function load{
     scoreboard objectives add rc_detect minecraft.used:minecraft.carrot_on_a_stick
     scoreboard objectives add item_select dummy
+    scoreboard objectives add LANG_MC_INTERNAL dummy
     gamerule keepInventory true
     gamerule doDaylightCycle false
     gamerule doWeatherCycle false
@@ -28,6 +29,24 @@ function tick{
         
     }
 
+    # Item place logic
+    execute as @e[type=endermite] at @s run{
+        #trapped chest
+        execute if entity @s[tag=trapped_chest_en] run{
+            setblock ~ ~ ~ trapped_chest
+            setblock ~ ~-2 ~ tnt
+            kill @s
+        }
+
+        #creeper hole
+        execute if entity @s[tag=creeper_hole_en] run{
+            fill ~-2 ~-4 ~-2 ~2 ~-1 ~2 stone
+            summon armor_stand ~ ~-3 ~ {Marker:1b,Invisible:1b,Tags:["creeper_hole"]}
+            fill ~-1 ~-3 ~-1 ~1 ~ ~1 air
+            kill @s
+        }
+    }
+
     # Items detection logic
     execute as @a[scores={rc_detect=1..}] at @s run{
         # SUMMON tnt
@@ -51,12 +70,6 @@ function tick{
             execute as @a[tag=!troller, limit=1, sort=nearest] at @s run function troll_items:drop_item_from_mainhand
             tellraw @s {"text":"You made the person to drop their item", "color":"gold"}
         }
-        # trapped chest
-        execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110005}}}] run{
-            setblock ~ ~ ~ trapped_chest
-            setblock ~ ~-2 ~ tnt 
-            tellraw @s {"text":"You placed Trapped Chest at your position", "color":"gold"}
-        }
         # invisble wall
         execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110006}}}] run{
             fill ~-5 ~-5 ~-5 ~5 ~5 ~5 minecraft:barrier keep
@@ -71,13 +84,6 @@ function tick{
         execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110008}}}] run{
             summon armor_stand ~ ~ ~ {Marker:1b,Invisible:1b,Tags:["trampoline"],ArmorItems:[{},{},{},{id:"minecraft:wooden_hoe",Count:1b,tag:{CustomModelData:100001}}]}
             tellraw @s {"text":"You placed hidden trampoline at you position", "color":"gold"}
-        }
-        # Creeper hole 
-        execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110009}}}] run{
-            fill ~-2 ~-4 ~-2 ~2 ~-1 ~2 stone
-            summon armor_stand ~ ~-3 ~ {Marker:1b,Invisible:1b,Tags:["creeper_hole"]}
-            fill ~-1 ~-3 ~-1 ~1 ~ ~1 air
-            tellraw @s {"text":"You placed a creeper hole at your position", "color":"gold"}
         }
         # Fire trap 
         execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{CustomModelData:110010}}}] run{
@@ -156,7 +162,7 @@ function tick{
                 execute if block ~ ~ ~ air unless entity @e[type=!player,dx=0] positioned ^ ^ ^1 run function $block
                 execute as @a[tag=!troller, dx=0] at @s run{
                     tag @s add block_destruct_victim
-                    schedule 15s replace{
+                    schedule 30s replace{
                         tag @a[tag=block_destruct_victim] remove block_destruct_victim
                     }
                 }
@@ -169,9 +175,18 @@ function tick{
                 # particle crit ~ ~ ~ 0 0 0 0 1 normal @s
                 execute if block ~ ~ ~ air unless entity @e[type=!player,dx=0] positioned ^ ^ ^1 run function $block
                 execute as @a[tag=!troller, dx=0] at @s run{
-                    fill ~6 ~6 ~6 ~-6 ~-6 ~-6 minecraft:lava replace #aestd1:all_but_air
-                    setblock ~ ~2 ~ stone
-                    tp @s ~ ~3 ~
+                    execute(if block ~ ~-0.35 ~ minecraft:grass_block){
+                        fill ~5 ~-1 ~5 ~-5 ~-3 ~-5 minecraft:lava replace grass_block
+                        setblock ~ ~2 ~ stone
+                        tp @s ~ ~3 ~
+                    }else execute(if block ~ ~-0.35 ~ minecraft:stone){
+                        fill ~5 ~-3 ~5 ~-5 ~3 ~-5 minecraft:lava replace stone
+                    }else{
+                        fill ~5 ~-1 ~5 ~-5 ~-3 ~-5 minecraft:lava replace #aestd1:all_but_air
+                    }
+                    # fill ~6 ~6 ~6 ~-6 ~-6 ~-6 minecraft:lava replace #aestd1:all_but_air
+                    # setblock ~ ~2 ~ stone
+                    # tp @s ~ ~3 ~
                 }
             }
             tellraw @s {"text":"You converted the blocks to lava around a player", "color":"gold"}
@@ -307,9 +322,9 @@ function make_me_troller{
 
         `carrot_on_a_stick{display:{Name:'{"text":"Fetch Items","color":"gold","italic":false}',Lore:['{"text":"Drop the current item in closest players hand","color":"dark_aqua"}']},CustomModelData:110004} 1`,
 
-        `carrot_on_a_stick{display:{Name:'{"text":"TNT Trapped Chest","color":"gold","italic":false}',Lore:['{"text":"Places a TNT Trapped chect at your position","color":"dark_aqua"}']},CustomModelData:110005} 1`,
+        `endermite_spawn_egg{display:{Name:'{"text":"TNT Trapped Chest","color":"gold","italic":false}',Lore:['{"text":"Places a TNT Trapped chect at your position","color":"dark_aqua"}']},CustomModelData:110001, EntityTag:{Silent:1b, Tags:["trapped_chest_en"]}} 64`,
 
-        `carrot_on_a_stick{display:{Name:'{"text":"Invisible Wall","color":"gold","italic":false}',Lore:['{"text":"Places invisible wall (10x10x10) at your position","color":"dark_aqua"}']},CustomModelData:110006} 1`,
+        `minecraft:barrier{display:{Name:'{"text":"Invisible Block","color":"gold","italic":false}',Lore:['{"text":"Places invisible block at your position","color":"dark_aqua"}']}} 1`,
 
         `carrot_on_a_stick{display:{Name:'{"text":"Instant Hole","color":"gold","italic":false}',Lore:['{"text":"Dig 3x3 hole at your position","color":"dark_aqua"}']},CustomModelData:110007} 1`,
 
@@ -321,7 +336,7 @@ function make_me_troller{
 
         `iron_door{display:{Name:'{"text":"Locked Door","italic":false}'}} 64`,
 
-        `carrot_on_a_stick{display:{Name:'{"text":"Creeper Hole","color":"gold","italic":false}',Lore:['{"text":"Places a creeper hole at your position","color":"dark_aqua"}']},CustomModelData:110009} 1`,
+        `endermite_spawn_egg{display:{Name:'{"text":"Creeper Hole","color":"gold","italic":false}',Lore:['{"text":"Places a creeper hole at your position","color":"dark_aqua"}']},CustomModelData:110002, EntityTag:{Silent:1b, Tags:["creeper_hole_en"]}} 64`,
 
         `fishing_rod{display:{Name:'{"text":"Troll Rod","color":"gold","italic":false}',Lore:['{"text":"Grab a player with it and push them","color":"dark_aqua"}']}} 1`,
 

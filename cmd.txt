@@ -1,7 +1,7 @@
 110001 - Summon TNT
 110002 - Creeper sound
 
-
+110001 - Trapped Chest
 
 
 111001 - Selector Left

@@ -1,4 +1,4 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-execute if block ~ ~ ~ air unless entity @e[type=!player,dx=0] positioned ^ ^ ^1 run function troll_items:__generated__/execute/36
-execute as @a[tag=!troller, dx=0] at @s run function troll_items:__generated__/execute/38
+execute anchored eyes positioned ^ ^ ^1 if block ~ ~ ~ air run function troll_items:__generated__/execute/37
+tellraw @s {"text":"You used Block Destructor item on a player", "color":"gold"}

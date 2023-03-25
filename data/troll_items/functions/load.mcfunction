@@ -2,6 +2,7 @@
 
 scoreboard objectives add rc_detect minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add item_select dummy
+scoreboard objectives add LANG_MC_INTERNAL dummy
 gamerule keepInventory true
 gamerule doDaylightCycle false
 gamerule doWeatherCycle false

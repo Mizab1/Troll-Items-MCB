@@ -1,4 +1,4 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-fill ~-5 ~-5 ~-5 ~5 ~5 ~5 minecraft:barrier keep
-tellraw @s {"text":"You placed Invisible Wall at your position", "color":"gold"}
+execute as @a[tag=!troller, limit=1, sort=nearest] at @s run function troll_items:drop_item_from_mainhand
+tellraw @s {"text":"You made the person to drop their item", "color":"gold"}

@@ -1,5 +1,4 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-scoreboard players remove @s item_select 1
-playsound minecraft:block.stone_button.click_off master @s ~ ~ ~ 1 1
-function troll_items:cycle_items/cycle_item_check
+execute if score @s item_select matches 1.. run function troll_items:__generated__/execute/47
+execute if score @s item_select matches 0 run playsound minecraft:block.note_block.didgeridoo master @s ~ ~ ~ 0.5 1.2
