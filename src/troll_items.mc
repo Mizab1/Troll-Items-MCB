@@ -180,7 +180,7 @@ function tick{
                         setblock ~ ~2 ~ stone
                         tp @s ~ ~3 ~
                     }else execute(if block ~ ~-0.35 ~ minecraft:stone){
-                        fill ~5 ~-3 ~5 ~-5 ~3 ~-5 minecraft:lava replace stone
+                        fill ~5 ~ ~5 ~-5 ~3 ~-5 minecraft:lava replace stone
                     }else{
                         fill ~5 ~-1 ~5 ~-5 ~-3 ~-5 minecraft:lava replace #aestd1:all_but_air
                     }
